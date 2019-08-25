@@ -39,6 +39,7 @@ namespace ProgrammingDemo
                 result += digit;
             }
             Console.WriteLine("\nYour " + numberOfDigits + "-digit number is " + result + "!");
+            Console.WriteLine("\n" + (new AllCharsInstringAreDigitsRule().ConformsToRule(result) ? "Your string is correct!" : "Your string is incorrect!"));
             Console.ReadKey();
         }
     }
