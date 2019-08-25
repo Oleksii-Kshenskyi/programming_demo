@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AllCharsInstringAreDigitsRule.cs" />
     <Compile Include="IRule.cs" />
+    <Compile Include="NotMoreThanYSubsequentNumbersIdenticalRule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -33,11 +33,45 @@ namespace ProgrammingDemo
                 }
             } while (!char.IsDigit(UserInput.KeyChar));
 
+            int subsequentIdenticalNumber = 0;
+
+            do
+            {
+                Console.Write("\nMax number of subsequent identical digits? ==> ");
+                UserInput = Console.ReadKey(); // Get user input
+
+                if (char.IsDigit(UserInput.KeyChar))
+                {
+                    subsequentIdenticalNumber = int.Parse(UserInput.KeyChar.ToString()); // use Parse if it's a Digit
+                }
+                else
+                {
+                    Console.WriteLine("\nDear user, you are a bit dumb, aren't you? Try again!");
+                }
+            } while (!char.IsDigit(UserInput.KeyChar));
+
+            Dictionary<int, int> subsequentIdentical = new Dictionary<int, int>();
             for (int i = 1; i <= numberOfDigits; i++)
             {
-                var digit = generator.Next(0, 10);
-                result += digit;
+                bool ok = false;
+                while (!ok)
+                {
+                    var digit = generator.Next(0, 10);
+                    int temp = 0;
+                    if (!subsequentIdentical.TryGetValue(digit, out temp))
+                    {
+                        subsequentIdentical[digit] = 0;
+                    }
+                    subsequentIdentical[digit]++;
+
+                    if (subsequentIdentical[digit] <= subsequentIdenticalNumber)
+                    {
+                        result += digit;
+                        ok = true;
+                    }
+                }
             }
+
             Console.WriteLine("\nYour " + numberOfDigits + "-digit number is " + result + "!");
             Console.WriteLine("\n" + (new AllCharsInstringAreDigitsRule().ConformsToRule(result) ? "Your string is correct!" : "Your string is incorrect!"));
             Console.ReadKey();
