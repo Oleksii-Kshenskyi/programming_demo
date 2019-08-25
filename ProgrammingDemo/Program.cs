@@ -10,7 +10,8 @@ namespace ProgrammingDemo
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Random rand = new Random();
+            Console.WriteLine("Generated random number is " + rand.Next(0, 10));
             Console.ReadKey();
         }
     }
