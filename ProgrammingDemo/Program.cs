@@ -10,6 +10,11 @@ namespace ProgrammingDemo
     {
         static void Main(string[] args)
         {
+            PerformCalculations();
+        }
+
+        static void PerformCalculations()
+        {
             Random generator = new Random();
             string result = "";
 
