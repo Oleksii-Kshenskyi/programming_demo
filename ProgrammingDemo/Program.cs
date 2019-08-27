@@ -66,58 +66,11 @@ namespace ProgrammingDemo
             Random generator = new Random();
             string result = "";
 
-            int numberOfDigits = 0;
+            int numberOfDigits = Utilities.RequestInputFromUser(Strings.DigitsInNumberRequestText);
 
-            ConsoleKeyInfo UserInput;
+            int overallIdenticalNumber = Utilities.RequestInputFromUser(Strings.OverallIdenticalRequestText);
 
-            // We check input for a Digit
-            do
-            {
-                Console.Write(Strings.DigitsInNumberRequestText);
-                UserInput = Console.ReadKey(); // Get user input
-
-                if (char.IsDigit(UserInput.KeyChar))
-                {
-                    numberOfDigits = int.Parse(UserInput.KeyChar.ToString()); // use Parse if it's a Digit
-                }
-                else
-                {
-                    Console.WriteLine(Strings.UserIsDumb);
-                }
-            } while (!char.IsDigit(UserInput.KeyChar));
-
-            int overallIdenticalNumber = 0;
-
-            do
-            {
-                Console.Write(Strings.OverallIdenticalRequestText);
-                UserInput = Console.ReadKey(); // Get user input
-
-                if (char.IsDigit(UserInput.KeyChar))
-                {
-                    overallIdenticalNumber = int.Parse(UserInput.KeyChar.ToString()); // use Parse if it's a Digit
-                }
-                else
-                {
-                    Console.WriteLine(Strings.UserIsDumb);
-                }
-            } while (!char.IsDigit(UserInput.KeyChar));
-
-            int subsequentIdenticalNumber = -1;
-            do
-            {
-                Console.Write(Strings.SubsequentIdenticalRequestText);
-                UserInput = Console.ReadKey(); // Get user input
-
-                if (char.IsDigit(UserInput.KeyChar))
-                {
-                    subsequentIdenticalNumber = int.Parse(UserInput.KeyChar.ToString()); // use Parse if it's a Digit
-                }
-                else
-                {
-                    Console.WriteLine(Strings.UserIsDumb);
-                }
-            } while (!char.IsDigit(UserInput.KeyChar));
+            int subsequentIdenticalNumber = Utilities.RequestInputFromUser(Strings.SubsequentIdenticalRequestText);
 
             Dictionary<int, int> overallIdentical = new Dictionary<int, int>();
             int previousDigit = -1;
