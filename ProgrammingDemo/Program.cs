@@ -20,13 +20,8 @@ namespace ProgrammingDemo
             do
             {
                 Console.Clear();
-                Console.WriteLine("Welcome to the Vadym number generation application!");
-                Console.WriteLine("Please choose what to do:");
-                Console.WriteLine("1. Generate random numbers following direct rules.");
-                Console.WriteLine("2. Generate random numbers following reversed rules.");
-                Console.WriteLine("3. Input a number yourself and let the application verify it.");
-                Console.WriteLine("4. Exit the application.");
-                Console.Write("==> ");
+                Console.WriteLine(Strings.UserMenu);
+                Console.Write(Strings.UserPrompt);
 
                 ConsoleKeyInfo UserInput;
                 UserInput = Console.ReadKey(); // Get user input
@@ -43,23 +38,23 @@ namespace ProgrammingDemo
                             PerformCalculations();
                             break;
                         case "2":
-                            Console.WriteLine("\nNot Implemented Yet!");
+                            Console.WriteLine(Strings.NotImplemented);
                             break;
                         case "3":
-                            Console.WriteLine("\nNot Implemented Yet!");
+                            Console.WriteLine(Strings.NotImplemented);
                             break;
                         case "4":
                             Environment.Exit(0);
                             break;
                         default:
-                            Console.WriteLine("\nDear user, you are a bit dumb, aren't you? Try again!");
+                            Console.WriteLine(Strings.UserIsDumb);
                             break;
                     }
                     Console.ReadKey();
                 }
                 else
                 {
-                    Console.WriteLine("\nDear user, you are a bit dumb, aren't you? Try again!");
+                    Console.WriteLine(Strings.UserIsDumb);
                     Console.ReadKey();
                 }
             } while (choice != "4");
@@ -78,7 +73,7 @@ namespace ProgrammingDemo
             // We check input for a Digit
             do
             {
-                Console.Write("How many digits do you want in your number? ==> ");
+                Console.Write(Strings.DigitsInNumberRequestText);
                 UserInput = Console.ReadKey(); // Get user input
 
                 if (char.IsDigit(UserInput.KeyChar))
@@ -87,7 +82,7 @@ namespace ProgrammingDemo
                 }
                 else
                 {
-                    Console.WriteLine("\nDear user, you are a bit dumb, aren't you? Try again!");
+                    Console.WriteLine(Strings.UserIsDumb);
                 }
             } while (!char.IsDigit(UserInput.KeyChar));
 
@@ -95,7 +90,7 @@ namespace ProgrammingDemo
 
             do
             {
-                Console.Write("\nMax number of identical digits overall? ==> ");
+                Console.Write(Strings.OverallIdenticalRequestText);
                 UserInput = Console.ReadKey(); // Get user input
 
                 if (char.IsDigit(UserInput.KeyChar))
@@ -104,14 +99,14 @@ namespace ProgrammingDemo
                 }
                 else
                 {
-                    Console.WriteLine("\nDear user, you are a bit dumb, aren't you? Try again!");
+                    Console.WriteLine(Strings.UserIsDumb);
                 }
             } while (!char.IsDigit(UserInput.KeyChar));
 
             int subsequentIdenticalNumber = -1;
             do
             {
-                Console.Write("\nMax number of subsequent identical digits? ==> ");
+                Console.Write(Strings.SubsequentIdenticalRequestText);
                 UserInput = Console.ReadKey(); // Get user input
 
                 if (char.IsDigit(UserInput.KeyChar))
@@ -120,7 +115,7 @@ namespace ProgrammingDemo
                 }
                 else
                 {
-                    Console.WriteLine("\nDear user, you are a bit dumb, aren't you? Try again!");
+                    Console.WriteLine(Strings.UserIsDumb);
                 }
             } while (!char.IsDigit(UserInput.KeyChar));
 
@@ -172,8 +167,8 @@ namespace ProgrammingDemo
                 }
             }
 
-            Console.WriteLine("\nYour " + numberOfDigits + "-digit number is " + result + "!");
-            Console.WriteLine("\n" + (new AllCharsInstringAreDigitsRule().ConformsToRule(result) ? "Your string is correct!" : "Your string is incorrect!"));
+            Console.WriteLine(string.Format(Strings.NumberDisplay, numberOfDigits, result));
+            Console.WriteLine("\n" + (new AllCharsInstringAreDigitsRule().ConformsToRule(result) ? Strings.CorrectString : Strings.IncorrectString));
             Console.ReadKey();
         }
     }
