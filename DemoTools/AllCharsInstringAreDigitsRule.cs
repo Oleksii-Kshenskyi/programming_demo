@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProgrammingDemo
+namespace DemoTools
 {
-    class AllCharsInstringAreDigitsRule : IRule
+    public class AllCharsInstringAreDigitsRule : IRule
     {
         public bool ConformsToRule(string value)
         {

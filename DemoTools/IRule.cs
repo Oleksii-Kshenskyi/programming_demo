@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProgrammingDemo
+namespace DemoTools
 {
-    interface IRule
+    public interface IRule
     {
         bool ConformsToRule(string value);
     }

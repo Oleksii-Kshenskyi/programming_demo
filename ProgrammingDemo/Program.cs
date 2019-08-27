@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DemoTools;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -90,8 +91,24 @@ namespace ProgrammingDemo
                 }
             } while (!char.IsDigit(UserInput.KeyChar));
 
-            int subsequentIdenticalNumber = 0;
+            int overallIdenticalNumber = 0;
 
+            do
+            {
+                Console.Write("\nMax number of identical digits overall? ==> ");
+                UserInput = Console.ReadKey(); // Get user input
+
+                if (char.IsDigit(UserInput.KeyChar))
+                {
+                    overallIdenticalNumber = int.Parse(UserInput.KeyChar.ToString()); // use Parse if it's a Digit
+                }
+                else
+                {
+                    Console.WriteLine("\nDear user, you are a bit dumb, aren't you? Try again!");
+                }
+            } while (!char.IsDigit(UserInput.KeyChar));
+
+            int subsequentIdenticalNumber = -1;
             do
             {
                 Console.Write("\nMax number of subsequent identical digits? ==> ");
@@ -107,24 +124,50 @@ namespace ProgrammingDemo
                 }
             } while (!char.IsDigit(UserInput.KeyChar));
 
-            Dictionary<int, int> subsequentIdentical = new Dictionary<int, int>();
+            Dictionary<int, int> overallIdentical = new Dictionary<int, int>();
+            int previousDigit = -1;
+            int numberOfRepetitions = 1;
             for (int i = 1; i <= numberOfDigits; i++)
             {
-                bool ok = false;
-                while (!ok)
+                bool ok1 = false;
+                bool ok2 = true;
+                while (!ok1 || !ok2)
                 {
                     var digit = generator.Next(0, 10);
                     int temp = 0;
-                    if (!subsequentIdentical.TryGetValue(digit, out temp))
+                    if (!overallIdentical.TryGetValue(digit, out temp))
                     {
-                        subsequentIdentical[digit] = 0;
+                        overallIdentical[digit] = 0;
                     }
-                    subsequentIdentical[digit]++;
+                    overallIdentical[digit]++;
 
-                    if (subsequentIdentical[digit] <= subsequentIdenticalNumber)
+                    if (previousDigit == digit)
+                    {
+                        numberOfRepetitions++;
+                    }
+                    else
+                    {
+                        numberOfRepetitions = 1;
+                    }
+
+                    if (overallIdentical[digit] <= overallIdenticalNumber)
+                    {
+                        ok1 = true;
+                    }
+
+                    if (numberOfRepetitions > subsequentIdenticalNumber)
+                    {
+                        ok2 = false;
+                    }
+                    else if (numberOfRepetitions <= subsequentIdenticalNumber)
+                    {
+                        ok2 = true;
+                    }
+
+                    if (ok1 && ok2)
                     {
                         result += digit;
-                        ok = true;
+                        previousDigit = digit;
                     }
                 }
             }
