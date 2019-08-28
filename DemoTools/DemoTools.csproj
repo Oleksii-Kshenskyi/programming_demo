@@ -44,7 +44,9 @@
     <Compile Include="AllCharsInstringAreDigitsRule.cs" />
     <Compile Include="IRule.cs" />
     <Compile Include="NotMoreThanYSubsequentNumbersIdenticalRule.cs" />
+    <Compile Include="OverallIdentialNumbersRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuleChecker.cs" />
     <Compile Include="Strings.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>

@@ -11,7 +11,17 @@ namespace ProgrammingDemo
     {
         static void Main(string[] args)
         {
-            StartMainMenu();
+            //StartMainMenu();
+            TestRules();
+            Console.ReadKey();
+        }
+
+        static void TestRules()
+        {
+            RuleChecker rules = new RuleChecker();
+            rules.AddRule(new OverallIdentialNumbersRule(3));
+
+            Console.WriteLine(rules.CheckRules("4000422234331141") ? "Rules OK!" : "Rules broken :(");
         }
 
         static void StartMainMenu()
