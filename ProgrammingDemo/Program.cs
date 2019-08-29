@@ -9,6 +9,9 @@ namespace ProgrammingDemo
 {
     class Program
     {
+        public static int blah { get; set; }
+
+
         static void Main(string[] args)
         {
             //StartMainMenu();
@@ -19,9 +22,9 @@ namespace ProgrammingDemo
         static void TestRules()
         {
             RuleChecker rules = new RuleChecker();
-            rules.AddRule(new OverallIdentialNumbersRule(3));
+            rules.AddRule(new NotMoreThanYSubsequentNumbersIdenticalRule(3));
 
-            Console.WriteLine(rules.CheckRules("4000422234331141") ? "Rules OK!" : "Rules broken :(");
+            Console.WriteLine(rules.CheckRules("43332583383338338333") ? "Rules OK!" : "Rules broken :(");
         }
 
         static void StartMainMenu()
