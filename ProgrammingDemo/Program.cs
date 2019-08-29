@@ -14,8 +14,8 @@ namespace ProgrammingDemo
 
         static void Main(string[] args)
         {
-            //StartMainMenu();
-            TestRules();
+            StartMainMenu();
+            //TestRules();
             Console.ReadKey();
         }
 
@@ -76,7 +76,6 @@ namespace ProgrammingDemo
 
         static void PerformCalculations()
         {
-            Random generator = new Random();
             string result = "";
 
             int numberOfDigits = Utilities.RequestInputFromUser(Strings.DigitsInNumberRequestText);
@@ -85,57 +84,32 @@ namespace ProgrammingDemo
 
             int subsequentIdenticalNumber = Utilities.RequestInputFromUser(Strings.SubsequentIdenticalRequestText);
 
-            Dictionary<int, int> overallIdentical = new Dictionary<int, int>();
-            int previousDigit = -1;
-            int numberOfRepetitions = 1;
-            for (int i = 1; i <= numberOfDigits; i++)
+            RuleChecker checker = new RuleChecker();
+            checker.AddRule(new OverallIdentialNumbersRule(overallIdenticalNumber));
+            checker.AddRule(new NotMoreThanYSubsequentNumbersIdenticalRule(subsequentIdenticalNumber));
+
+            Console.WriteLine(string.Format(Strings.NumberDisplay, numberOfDigits, GenerateNumberAccordingToRules(checker, numberOfDigits)));
+            Console.WriteLine("\n" + (new AllCharsInstringAreDigitsRule().ConformsToRule(result) ? Strings.CorrectString : Strings.IncorrectString));
+            Console.ReadKey();
+        }
+
+        public static string GenerateNumberAccordingToRules(RuleChecker rulesToCheck, int numberOfDigits)
+        {
+            string result = "";
+            Random generator = new Random();
+            int i = 0;
+            while (i < numberOfDigits)
             {
-                bool ok1 = false;
-                bool ok2 = true;
-                while (!ok1 || !ok2)
+                string digit = generator.Next(0,10).ToString();
+
+                if (rulesToCheck.CheckRules(result + digit))
                 {
-                    var digit = generator.Next(0, 10);
-                    int temp = 0;
-                    if (!overallIdentical.TryGetValue(digit, out temp))
-                    {
-                        overallIdentical[digit] = 0;
-                    }
-                    overallIdentical[digit]++;
-
-                    if (previousDigit == digit)
-                    {
-                        numberOfRepetitions++;
-                    }
-                    else
-                    {
-                        numberOfRepetitions = 1;
-                    }
-
-                    if (overallIdentical[digit] <= overallIdenticalNumber)
-                    {
-                        ok1 = true;
-                    }
-
-                    if (numberOfRepetitions > subsequentIdenticalNumber)
-                    {
-                        ok2 = false;
-                    }
-                    else if (numberOfRepetitions <= subsequentIdenticalNumber)
-                    {
-                        ok2 = true;
-                    }
-
-                    if (ok1 && ok2)
-                    {
-                        result += digit;
-                        previousDigit = digit;
-                    }
+                    i++;
+                    result += digit;
                 }
             }
 
-            Console.WriteLine(string.Format(Strings.NumberDisplay, numberOfDigits, result));
-            Console.WriteLine("\n" + (new AllCharsInstringAreDigitsRule().ConformsToRule(result) ? Strings.CorrectString : Strings.IncorrectString));
-            Console.ReadKey();
+            return result;
         }
     }
 }
