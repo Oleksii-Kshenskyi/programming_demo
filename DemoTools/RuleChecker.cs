@@ -8,10 +8,12 @@ namespace DemoTools
 {
     public class RuleChecker
     {
-        public List<IRule> Rules { get; private set; }
-        public RuleChecker()
+        private List<IRule> Rules { get; set; }
+        public RuleDirection Direction { get; set; }
+        public RuleChecker(RuleDirection direction)
         {
             Rules = new List<IRule>();
+            Direction = direction;
         }
 
         public void AddRule(IRule newRule)
@@ -21,7 +23,17 @@ namespace DemoTools
 
         public bool CheckRules(string stringToCheck)
         {
+            return (Direction == RuleDirection.Direct) ? CheckDirectRules(stringToCheck) : CheckReverseRules(stringToCheck);
+        }
+
+        private bool CheckDirectRules(string stringToCheck)
+        {
             return Rules.All( x => x.ConformsToRule(stringToCheck));
+        }
+
+        private bool CheckReverseRules(string stringToCheck)
+        {
+            return Rules.All(x => !x.ConformsToRule(stringToCheck));
         }
     }
 }

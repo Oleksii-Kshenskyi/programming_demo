@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DemoTools
 {
-    public class OverallIdentialNumbersRule : IRule
+    public class OverallIdenticalNumbersRule : IRule
     {
         private int OverallIdentical;
 
-        public OverallIdentialNumbersRule(int overallIdentical)
+        public OverallIdenticalNumbersRule(int overallIdentical)
         {
             OverallIdentical = overallIdentical;
         }

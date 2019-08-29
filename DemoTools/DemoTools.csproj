@@ -42,11 +42,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllCharsInstringAreDigitsRule.cs" />
+    <Compile Include="IGenerator.cs" />
     <Compile Include="IRule.cs" />
     <Compile Include="NotMoreThanYSubsequentNumbersIdenticalRule.cs" />
-    <Compile Include="OverallIdentialNumbersRule.cs" />
+    <Compile Include="OverallDigitsRule.cs" />
+    <Compile Include="OverallIdenticalNumbersRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomGenerator.cs" />
     <Compile Include="RuleChecker.cs" />
+    <Compile Include="RuleDirection.cs" />
     <Compile Include="Strings.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>

@@ -21,7 +21,7 @@ namespace ProgrammingDemo
 
         static void TestRules()
         {
-            RuleChecker rules = new RuleChecker();
+            RuleChecker rules = new RuleChecker(RuleDirection.Direct);
             rules.AddRule(new NotMoreThanYSubsequentNumbersIdenticalRule(3));
 
             Console.WriteLine(rules.CheckRules("43332583383338338333") ? "Rules OK!" : "Rules broken :(");
@@ -48,10 +48,11 @@ namespace ProgrammingDemo
                     {
                         case "1":
                             Console.WriteLine();
-                            PerformCalculations();
+                            PerformCalculations(RuleDirection.Direct);
                             break;
                         case "2":
-                            Console.WriteLine(Strings.NotImplemented);
+                            Console.WriteLine();
+                            PerformCalculations(RuleDirection.Reverse);
                             break;
                         case "3":
                             Console.WriteLine(Strings.NotImplemented);
@@ -74,42 +75,40 @@ namespace ProgrammingDemo
         }
     
 
-        static void PerformCalculations()
+        static void PerformCalculations(RuleDirection direction)
         {
             string result = "";
 
-            int numberOfDigits = Utilities.RequestInputFromUser(Strings.DigitsInNumberRequestText);
-
-            int overallIdenticalNumber = Utilities.RequestInputFromUser(Strings.OverallIdenticalRequestText);
-
-            int subsequentIdenticalNumber = Utilities.RequestInputFromUser(Strings.SubsequentIdenticalRequestText);
-
-            RuleChecker checker = new RuleChecker();
-            checker.AddRule(new OverallIdentialNumbersRule(overallIdenticalNumber));
-            checker.AddRule(new NotMoreThanYSubsequentNumbersIdenticalRule(subsequentIdenticalNumber));
-
-            Console.WriteLine(string.Format(Strings.NumberDisplay, numberOfDigits, GenerateNumberAccordingToRules(checker, numberOfDigits)));
+            RuleChecker overarchingChecker = CreateOverarchingRules();
+            RuleChecker iterativeChecker = CreateIterativeRules(direction);
+            
+            Console.WriteLine(string.Format(Strings.NumberDisplay, new RandomGenerator(iterativeChecker, overarchingChecker).Generate()));
             Console.WriteLine("\n" + (new AllCharsInstringAreDigitsRule().ConformsToRule(result) ? Strings.CorrectString : Strings.IncorrectString));
             Console.ReadKey();
         }
 
-        public static string GenerateNumberAccordingToRules(RuleChecker rulesToCheck, int numberOfDigits)
+        public static RuleChecker CreateIterativeRules(RuleDirection direction)
         {
-            string result = "";
-            Random generator = new Random();
-            int i = 0;
-            while (i < numberOfDigits)
-            {
-                string digit = generator.Next(0,10).ToString();
+            int overallIdenticalNumber = Utilities.RequestInputFromUser(Strings.OverallIdenticalRequestText);
 
-                if (rulesToCheck.CheckRules(result + digit))
-                {
-                    i++;
-                    result += digit;
-                }
-            }
+            int subsequentIdenticalNumber = Utilities.RequestInputFromUser(Strings.SubsequentIdenticalRequestText);
 
-            return result;
+            RuleChecker checker = new RuleChecker(direction);
+
+            checker.AddRule(new OverallIdenticalNumbersRule(overallIdenticalNumber));
+            checker.AddRule(new NotMoreThanYSubsequentNumbersIdenticalRule(subsequentIdenticalNumber));
+
+            return checker;
+        }
+
+        public static RuleChecker CreateOverarchingRules()
+        {
+            int numberOfDigits = Utilities.RequestInputFromUser(Strings.DigitsInNumberRequestText);
+
+            RuleChecker checker = new RuleChecker(RuleDirection.Direct);
+            checker.AddRule(new OverallDigitsRule(numberOfDigits));
+
+            return checker;
         }
     }
 }
