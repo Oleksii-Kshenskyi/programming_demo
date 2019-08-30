@@ -40,25 +40,35 @@ namespace ProgrammingDemo
                 UserInput = Console.ReadKey(); // Get user input
                 int temp = 0;
 
+                if (UserInput.KeyChar == '4')
+                {
+                    Environment.Exit(0);
+                }
+
                 if (char.IsDigit(UserInput.KeyChar) && int.TryParse(UserInput.KeyChar.ToString(), out temp))
                 {
                     choice = temp.ToString();
-
+                    int numberOfDigits = Utilities.RequestInputFromUser(Strings.DigitsInNumberRequestText);
+                    int overallIdenticalNumber = Utilities.RequestInputFromUser(Strings.OverallIdenticalRequestText);
+                    int subsequentIdenticalNumber = Utilities.RequestInputFromUser(Strings.SubsequentIdenticalRequestText);
+                    if (!UserInputConformsToRules(numberOfDigits, overallIdenticalNumber, subsequentIdenticalNumber))
+                    {
+                        Console.WriteLine(Strings.UserIsDumb);
+                        Console.ReadKey();
+                        continue;
+                    }
                     switch (choice)
                     {
                         case "1":
                             Console.WriteLine();
-                            PerformCalculations(RuleDirection.Direct);
+                            PerformCalculations(RuleDirection.Direct, numberOfDigits, overallIdenticalNumber, subsequentIdenticalNumber);
                             break;
                         case "2":
                             Console.WriteLine();
-                            PerformCalculations(RuleDirection.Reverse);
+                            PerformCalculations(RuleDirection.Reverse, numberOfDigits, overallIdenticalNumber, subsequentIdenticalNumber);
                             break;
                         case "3":
                             Console.WriteLine(Strings.NotImplemented);
-                            break;
-                        case "4":
-                            Environment.Exit(0);
                             break;
                         default:
                             Console.WriteLine(Strings.UserIsDumb);
@@ -75,24 +85,17 @@ namespace ProgrammingDemo
         }
     
 
-        static void PerformCalculations(RuleDirection direction)
+        static void PerformCalculations(RuleDirection direction, int numberOfDigits, int overallIdenticalNumber, int subsequentIdenticalNumber)
         {
-            string result = "";
-
-            RuleChecker overarchingChecker = CreateOverarchingRules();
-            RuleChecker iterativeChecker = CreateIterativeRules(direction);
+            RuleChecker overarchingChecker = CreateOverarchingRules(numberOfDigits);
+            RuleChecker iterativeChecker = CreateIterativeRules(direction, overallIdenticalNumber, subsequentIdenticalNumber);
             
             Console.WriteLine(string.Format(Strings.NumberDisplay, new RandomGenerator(iterativeChecker, overarchingChecker).Generate(direction)));
-            Console.WriteLine("\n" + (new AllCharsInstringAreDigitsRule().ConformsToRule(result) ? Strings.CorrectString : Strings.IncorrectString));
             Console.ReadKey();
         }
 
-        public static RuleChecker CreateIterativeRules(RuleDirection direction)
+        public static RuleChecker CreateIterativeRules(RuleDirection direction, int overallIdenticalNumber, int subsequentIdenticalNumber)
         {
-            int overallIdenticalNumber = Utilities.RequestInputFromUser(Strings.OverallIdenticalRequestText);
-
-            int subsequentIdenticalNumber = Utilities.RequestInputFromUser(Strings.SubsequentIdenticalRequestText);
-
             RuleChecker checker = new RuleChecker(direction);
 
             checker.AddRule(new OverallIdenticalNumbersRule(overallIdenticalNumber));
@@ -101,14 +104,19 @@ namespace ProgrammingDemo
             return checker;
         }
 
-        public static RuleChecker CreateOverarchingRules()
+        public static RuleChecker CreateOverarchingRules(int numberOfDigits)
         {
-            int numberOfDigits = Utilities.RequestInputFromUser(Strings.DigitsInNumberRequestText);
+
 
             RuleChecker checker = new RuleChecker(RuleDirection.Direct);
             checker.AddRule(new OverallDigitsRule(numberOfDigits));
 
             return checker;
+        }
+
+        public static bool UserInputConformsToRules(int first, int second, int third)
+        {
+            return (first >= second) && (second >= third);
         }
     }
 }

@@ -8,14 +8,12 @@ namespace DemoTools
 {
     public static class Strings
     {
-        public static string UserIsDumb = "\nDear user, you are a bit dumb, aren't you? Try again!";
-        public static string DigitsInNumberRequestText = "\nHow many digits do you want in your number? ==> ";
+        public static string UserIsDumb = "\n\nDear user, you are a bit dumb, aren't you? Try again!";
+        public static string DigitsInNumberRequestText = "\n\nHow many digits do you want in your number? ==> ";
         public static string OverallIdenticalRequestText = "\nMax number of identical digits overall? ==> ";
         public static string SubsequentIdenticalRequestText = "\nMax number of subsequent identical digits? ==> ";
         public static string NumberOfDigits = "\nYour number has {0} digits!";
-        public static string NumberDisplay = "\nYour number is {0}!";
-        public static string CorrectString = "Your string is correct!";
-        public static string IncorrectString = "Your string is incorrect!";
+        public static string NumberDisplay = "\nYour number is {0}";
         public static string UserPrompt = "==> ";
         public static string NotImplemented = "\nNot Implemented Yet!";
 
