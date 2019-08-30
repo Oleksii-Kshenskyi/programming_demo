@@ -33,7 +33,7 @@ namespace DemoTools
 
         private bool CheckReverseRules(string stringToCheck)
         {
-            return Rules.All(x => !x.ConformsToRule(stringToCheck));
+            return Rules.Any(x => !x.ConformsToRule(stringToCheck));
         }
     }
 }

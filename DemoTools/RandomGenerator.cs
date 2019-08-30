@@ -17,7 +17,12 @@ namespace DemoTools
             OverarchingRules = overarchingRules;
         }
 
-        public string Generate()
+        public string Generate(RuleDirection direction)
+        {
+            return (direction == RuleDirection.Direct) ? GenerateDirectNumber() : GenerateReverseNumber();
+        }
+
+        private string GenerateDirectNumber()
         {
             string result = "";
             Random generator = new Random();
@@ -32,6 +37,26 @@ namespace DemoTools
                     result += digit;
                 }
             }
+
+            return result;
+        }
+
+        private string GenerateReverseNumber()
+        {
+            string result = "";
+            Random generator = new Random();
+            int i = 0;
+            do
+            {
+                result = "";
+                i = 0;
+                while (!OverarchingRules.CheckRules(result.Length.ToString()))
+                {
+                    string digit = generator.Next(0, 10).ToString();
+                    i++;
+                    result += digit;
+                }
+            } while (!IterativeRules.CheckRules(result));
 
             return result;
         }

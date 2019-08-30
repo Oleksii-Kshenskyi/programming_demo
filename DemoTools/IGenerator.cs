@@ -8,6 +8,6 @@ namespace DemoTools
 {
     interface IGenerator
     {
-        string Generate();
+        string Generate(RuleDirection direction);
     }
 }

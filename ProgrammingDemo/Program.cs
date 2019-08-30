@@ -82,7 +82,7 @@ namespace ProgrammingDemo
             RuleChecker overarchingChecker = CreateOverarchingRules();
             RuleChecker iterativeChecker = CreateIterativeRules(direction);
             
-            Console.WriteLine(string.Format(Strings.NumberDisplay, new RandomGenerator(iterativeChecker, overarchingChecker).Generate()));
+            Console.WriteLine(string.Format(Strings.NumberDisplay, new RandomGenerator(iterativeChecker, overarchingChecker).Generate(direction)));
             Console.WriteLine("\n" + (new AllCharsInstringAreDigitsRule().ConformsToRule(result) ? Strings.CorrectString : Strings.IncorrectString));
             Console.ReadKey();
         }
