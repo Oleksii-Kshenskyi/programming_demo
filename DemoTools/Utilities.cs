@@ -32,5 +32,26 @@ namespace DemoTools
 
             return output;
         }
+
+        public static string RequestNumberInputFromUser(string userPrompt)
+        {
+            string UserInput;
+            bool conformsToRules = false;
+
+            // We check input for a Digit
+            do
+            {
+                Console.Write(userPrompt);
+                UserInput = Console.ReadLine(); // Get user input
+                conformsToRules = UserInput.All(x => char.IsDigit(x));
+
+                if (!conformsToRules)
+                {
+                    Console.WriteLine(Strings.UserIsDumb);
+                }
+            } while (!conformsToRules);
+
+            return UserInput;
+        }
     }
 }

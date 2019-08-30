@@ -15,16 +15,7 @@ namespace ProgrammingDemo
         static void Main(string[] args)
         {
             StartMainMenu();
-            //TestRules();
             Console.ReadKey();
-        }
-
-        static void TestRules()
-        {
-            RuleChecker rules = new RuleChecker(RuleDirection.Direct);
-            rules.AddRule(new NotMoreThanYSubsequentNumbersIdenticalRule(3));
-
-            Console.WriteLine(rules.CheckRules("43332583383338338333") ? "Rules OK!" : "Rules broken :(");
         }
 
         static void StartMainMenu()
@@ -48,10 +39,20 @@ namespace ProgrammingDemo
                 if (char.IsDigit(UserInput.KeyChar) && int.TryParse(UserInput.KeyChar.ToString(), out temp))
                 {
                     choice = temp.ToString();
-                    int numberOfDigits = Utilities.RequestInputFromUser(Strings.DigitsInNumberRequestText);
+                    int numberOfDigits = 0;
+                    string numberToVerify = "";
+                    if (choice != "3")
+                    {
+                        numberOfDigits = Utilities.RequestInputFromUser(Strings.DigitsInNumberRequestText);
+                    }
+                    else
+                    {
+                        numberToVerify = Utilities.RequestNumberInputFromUser(Strings.RequestNumberInput);
+                    }
+
                     int overallIdenticalNumber = Utilities.RequestInputFromUser(Strings.OverallIdenticalRequestText);
                     int subsequentIdenticalNumber = Utilities.RequestInputFromUser(Strings.SubsequentIdenticalRequestText);
-                    if (!UserInputConformsToRules(numberOfDigits, overallIdenticalNumber, subsequentIdenticalNumber))
+                    if (!UserInputConformsToRules((choice != "3") ? numberOfDigits : numberToVerify.Length, overallIdenticalNumber, subsequentIdenticalNumber))
                     {
                         Console.WriteLine(Strings.UserIsDumb);
                         Console.ReadKey();
@@ -68,7 +69,7 @@ namespace ProgrammingDemo
                             PerformCalculations(RuleDirection.Reverse, numberOfDigits, overallIdenticalNumber, subsequentIdenticalNumber);
                             break;
                         case "3":
-                            Console.WriteLine(Strings.NotImplemented);
+                            PerformNumberCheck(overallIdenticalNumber, subsequentIdenticalNumber, numberToVerify);
                             break;
                         default:
                             Console.WriteLine(Strings.UserIsDumb);
@@ -94,6 +95,25 @@ namespace ProgrammingDemo
             Console.ReadKey();
         }
 
+        static void PerformNumberCheck(int overallIdenticalNumber, int subsequentIdenticalNumber, string numberToVerify)
+        {
+            RuleChecker iterativeChecker = CreateIterativeRules(RuleDirection.Direct, overallIdenticalNumber, subsequentIdenticalNumber);
+
+            processNumberCheck(iterativeChecker, numberToVerify);
+        }
+
+        static void processNumberCheck(RuleChecker iterativeRules, string numberToVerify)
+        {
+            if (iterativeRules.CheckRules(numberToVerify))
+            {
+                Console.WriteLine(Strings.NumberIsDirect);
+            }
+            else
+            {
+                Console.WriteLine(Strings.NumberIsReverse);
+            }
+        }
+
         public static RuleChecker CreateIterativeRules(RuleDirection direction, int overallIdenticalNumber, int subsequentIdenticalNumber)
         {
             RuleChecker checker = new RuleChecker(direction);
@@ -106,8 +126,6 @@ namespace ProgrammingDemo
 
         public static RuleChecker CreateOverarchingRules(int numberOfDigits)
         {
-
-
             RuleChecker checker = new RuleChecker(RuleDirection.Direct);
             checker.AddRule(new OverallDigitsRule(numberOfDigits));
 
